@@ -1,8 +1,9 @@
-<?
+<?php
   include("../../service/produto.service.php");
   $acao = $_POST['acao'];
   $nome = isset($_POST['nome'])?$_POST['nome']:null;
   $preco = isset($_POST['preco'])?$_POST['preco']:null;
+  if (!is_numeric($preco)) echo "Forneça outro valor para o campo PREÇO.";
   $id = isset($_POST['id'])?$_POST['id']:null;
   if($acao=="cadastrar") {
     cadastrarProduto($nome, $preco);

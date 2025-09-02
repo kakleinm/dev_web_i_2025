@@ -12,9 +12,9 @@
         <button>Filtrar</button>
     </form>
     <?php
-    include("../../service/cliente.service.php");
+    include("../../service/venda.service.php");
     $filtro = isset($_POST["filtro"])?$_POST["filtro"]:"";
-    listarCliente($filtro);
+    listarVendas($filtro);
     ?>
 </body>
 </html>

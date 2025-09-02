@@ -4,7 +4,7 @@
         public $id;
         private $nomeArquivo="";
         const SEPARADOR = "#";
-        const NOME_ARQUIVO = " ";
+        const NOME_ARQUIVO = "";
         public function __construct($id, $nomeArquivo) {
             $this->id = $id;
             $this->nomeArquivo = $nomeArquivo;

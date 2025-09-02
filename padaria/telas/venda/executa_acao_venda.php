@@ -1,20 +1,23 @@
-<?
-  include("../../service/funcionario.service.php");
+<?php
+  include("../../service/venda.service.php");
   $acao = $_POST['acao'];
-  $nome = isset($_POST['nome'])?$_POST['nome']:null;
-  $salario = isset($_POST['salario'])?$_POST['salario']:null;
-  $telefone = isset($_POST['telefone'])?$_POST['telefone']:null;
+  $cliente = isset($_POST['cliente'])?$_POST['cliente']:null;
+  $func = isset($_POST['funcionario'])?$_POST['funcionario']:null;
+  $produtos = isset($_POST['produtos'])?$_POST['produtos']:null;
   $id = isset($_POST['id'])?$_POST['id']:null;
+
   if($acao=="cadastrar") {
-    cadastrarFuncionario($nome, $salario, $telefone);
+    $valorTotal = calcularTotal($produtos);
+    cadastrarVenda($cliente, $func, $produtos, $valorTotal);
     echo "Cadastrado com sucesso";
   }
   else if($acao=="alterar") {
-    alterarFuncionario($id, $nome, $salario, $telefone);
+    $valorTotal = calcularTotal($produtos);
+    alterarVenda($cliente, $func, $produtos, $valorTotal);
     echo "Alterado com sucesso";
   }
   else if($acao=="remover") {
-    removerFuncionario($id);
+    removerVenda($id);
     echo "Removido com sucesso";
   }
   else {

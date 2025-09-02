@@ -1,5 +1,5 @@
 <?php
-    include("../../model/cliente.class.php");
+    require_once("../../model/cliente.class.php");
     function cadastrarCliente($nome, $telefone) {
         $cliente = new Cliente(null, $nome, $telefone);
         $cliente->cadastrar();
@@ -33,11 +33,15 @@
         foreach($clientes as $cliente) {
             echo "<tr><td>".$cliente->nome."</td>";
             echo "<td>".$cliente->telefone."</td>";
-            echo "<td><a href='http://localhost:81/padaria/telas/funcionario/cadastro_cliente.php?id=".$cliente->id."'>Alterar</a> | <a href='http://localhost:81/padaria/telas/funcionario/cadastro_cliente.php?id=". $cliente->id. "'>Remover</a></td>";
+            echo "<td><a href='http://localhost:81/padaria/telas/cliente/cadastro_cliente.php?acao=alterar&id=".$cliente->id."'>Alterar</a> | <a href='http://localhost:81/padaria/telas/cliente/executa_acao_cliente.php?acao=remover&id=". $cliente->id. "'>Remover</a></td>";
             echo "</tr>";
         }
         echo "</tbody></table>";
 
+    }
+
+    function listarTodosClientes() {
+        return Cliente::listar("");
     }
 
 ?>

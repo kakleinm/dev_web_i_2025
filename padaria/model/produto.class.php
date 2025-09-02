@@ -1,5 +1,5 @@
 <?php
-    include("class_pai.class.php");
+    include_once("class_pai.class.php");
     class Produto extends ClassePai {
         public $nome;
         public $preco;
@@ -35,16 +35,25 @@
             $retorno = [];
             while(!feof($arquivo)){
                 $linha = fgets($arquivo);
-                if(empty($linha))
+                if($linha === "")
                     continue;
                 $dados = explode(self::SEPARADOR, $linha);
                 if(str_contains($dados[1], $filtroNome)){
-                    array_push($retorno, new Produto($dados[0], $dados[1], $dados[2], $dados[3]));
+                    array_push($retorno, new Produto($dados[0], $dados[1], $dados[2]));
                 }
                 
+            }
+            fclose($arquivo);
+            return $retorno;
+        }
+
+        static function pegaPorIds($ids) {
+            $retorno = [];
+            foreach($ids as $id) {
+                $produto = self::pegaPorId($id);
+                if($produto) $retorno[] = $produto;
             }
             return $retorno;
         }
     }
-
 ?>

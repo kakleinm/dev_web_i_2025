@@ -1,5 +1,5 @@
 <?php
-    include("class_pai.class.php");
+    include_once("class_pai.class.php");
     class Usuario extends ClassePai {
         public $nome;
         public $email;
@@ -32,7 +32,7 @@
             return $this->id.self::SEPARADOR.$this->nome.self::SEPARADOR.$this->email.self::SEPARADOR.$this->senha;
         }    
         static public function listar($filtroNome) {
-            $arquivo = fopen("../../db/usuarios.txt", "r");
+            $arquivo = fopen("../../db/usuarios.txt", "r+");
             $retorno = [];
             while(!feof($arquivo)){
                 $linha = fgets($arquivo);
