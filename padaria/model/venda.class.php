@@ -7,7 +7,11 @@
         public $cliente;
         public $vendedor;//tipo Funcionario
         public $produtosVendidos;
+        public $quantidades;
         public $valorTotal;
+        public $data;
+        public $modoPagamento;
+        public $desconto;
 
         function montaLinhaDados()
         {
@@ -30,21 +34,34 @@
                 .$this->vendedor
                 .self::SEPARADOR
                 .$this->valorTotal
-                .self::SEPARADOR;
+                .self::SEPARADOR
+                .$this->data
+                .self::SEPARADOR
+                .$this->modoPagamento
+                .self::SEPARADOR
+                .$this->desconto;
 
                 foreach($idsProdutos as $idProd) {
                     $linha .= self::SEPARADOR . $idProd;
                 }
 
+                foreach($this->quantidades as $qtd) {
+                    $linha .= self::SEPARADOR . $qtd;
+                }
+
             return $linha;
         }
 
-        public function __construct($id, $cliente, $vendedor, $produtosVendidos, $valorTotal) {
+        public function __construct($id, $cliente, $vendedor, $produtosVendidos, $quantidades, $valorTotal, $data, $modoPagamento, $desconto) {
             parent::__construct($id, "../../db/venda.txt");
             $this->cliente = $cliente;
             $this->vendedor = $vendedor;
             $this->produtosVendidos = $produtosVendidos;
+            $this->quantidades = $quantidades;
             $this->valorTotal = $valorTotal;
+            $this->data = $data;
+            $this->modoPagamento = $modoPagamento;
+            $this->desconto = $desconto;
         }
 
         static public function pegaPorId($id) {
@@ -56,9 +73,12 @@
                 $dados = explode(self::SEPARADOR, $linha);
                 if($dados[0] == $id){
                     fclose($arquivo);
-                    //PEGA OS IDS DOS PRODUTOS
-                    $idsProdutos = array_slice($dados, 4);
-                    return new Venda($dados[0], Cliente::pegaPorId($dados[1]), Funcionario::pegaPorId($dados[2]), Produto::pegaPorIds($idsProdutos), $dados[3]);
+                    $numCamposFixos = 7;
+                    $totalCampos = count($dados);
+                    $numProdutos = ($totalCampos - $numCamposFixos) / 2;
+                    $idsProdutos = array_slice($dados, $numCamposFixos, $numProdutos);
+                    $quantidades = array_slice($dados, $numCamposFixos + $numProdutos, $numProdutos);
+                    return new Venda($dados[0], Cliente::pegaPorId($dados[1]), Funcionario::pegaPorId($dados[2]), Produto::pegaPorIds($idsProdutos), $quantidades, $dados[3], $dados[4], $dados[5], $dados[6]);
                 }
             }
             fclose($arquivo);
@@ -73,9 +93,13 @@
                     continue;
                 $dados = explode(self::SEPARADOR, $linha);
                 if(str_contains($dados[1], $filtroNome)){
-                    $idsProdutos = array_slice($dados, 4);
+                    $numCamposFixos = 7;
+                    $totalCampos = count($dados);
+                    $numProdutos = ($totalCampos - $numCamposFixos) / 2;
+                    $idsProdutos = array_slice($dados, $numCamposFixos, $numProdutos);
+                    $quantidades = array_slice($dados, $numCamposFixos + $numProdutos, $numProdutos);
                     $produtos = Produto::pegaPorIds($idsProdutos);
-                    array_push($retorno, new Venda($dados[0], $dados[1], $dados[2], $produtos, $dados[3]));
+                    array_push($retorno, new Venda($dados[0], $dados[1], $dados[2], $produtos, $quantidades, $dados[3], $dados[4], $dados[5], $dados[6]));
                 }
                 
             }

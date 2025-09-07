@@ -22,7 +22,7 @@ if(isset($_GET["id"])) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cadastro de Venda</title>
 <link rel="stylesheet" href="../css/style.css">
-<script src="cadastro_venda.js"></script>
+<script src="cadastro_venda.js" defer></script>
 </head>
 <body>
 <h1>Cadastro de Venda</h1>
@@ -30,6 +30,7 @@ if(isset($_GET["id"])) {
     <input type="hidden" name="acao" value="<?= !empty($venda) ? "alterar" : "cadastrar" ?>">
     <input type="hidden" name="id" value="<?= $venda ? $venda->id : "" ?>">
 
+    
     <label>Cliente:</label>
     <select name="cliente" id="cliente" required>
         <?php
@@ -39,6 +40,15 @@ if(isset($_GET["id"])) {
             echo "<option value='{$cliente->id}' {$selected}>{$cliente->nome}</option>";
         }
         ?>
+    </select>
+    
+    <label>Data:</label><input type="date" name="data" id="data">
+    <label>Forma de pagamento:</label>
+    <select name="pagamento" id="paga">
+        <option value="PIX">PIX</option>
+        <option value="Débito">Débito</option>
+        <option value="Crédito">Crédito</option>
+        <option value="Dinheiro">Dinheiro</option>
     </select>
 
     <label>Funcionário:</label>
@@ -52,21 +62,32 @@ if(isset($_GET["id"])) {
         ?>
     </select>
 
-    <label>Produtos:</label>
-    <select name="produtos[]" id="produtos" multiple required>
-        <?php
-        $produtos = listarTodosProdutos();
-        foreach($produtos as $produto){
-            $selected = "";
-            if($venda){
-                foreach($venda->produtosVendidos as $p){
-                    if($p->id == $produto->id) $selected = "selected";
-                }
+    <label>Desconto (%):</label>
+    <input type="number" name="desconto" id="desconto">
+
+    <label>Produto:</label><button type="button" id="add">+</button>
+    <div id="display">
+        <select name="produtos" id="produtos" required>
+            <?php
+            $produtos = listarTodosProdutos();
+            foreach($produtos as $produto){
+                echo "<option value='{$produto->id}' {$selected}>{$produto->nome} - R$ {$produto->preco}</option>";
             }
-            echo "<option value='{$produto->id}' {$selected}>{$produto->nome} - R$ {$produto->preco}</option>";
-        }
-        ?>
-    </select>
+            ?>
+        </select>
+        <table>
+            <thead>
+                <th>Produto</th>
+                <th>Qtd.</th>
+            </thead>
+            <tbody id="selecao">
+
+            </tbody>
+        </table>
+    </div>
+
+    <input type="hidden" name="produtos_hidden" id="produtos_hidden" required>
+    <input type="hidden" name="qtd" id="qtd" required>
 
     <button type="submit"><?= !empty($venda) ? "Alterar" : "Cadastrar" ?></button>
 </form>
