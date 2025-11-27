@@ -50,3 +50,27 @@ button:hover {
   border-right: 1px solid rgb(60, 60, 124);
   padding: 8px;
 }
+
+.popup {
+  background-color: aliceblue;
+  border: 1px solid #0056b3;
+  max-width: 900px;
+  margin: auto;
+  background: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+.headerPopup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#closePopup {
+  width: 20px;
+  height: 20px;
+  padding: 1px;
+}

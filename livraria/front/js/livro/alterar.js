@@ -1,28 +1,6 @@
 const btnAlterarLivro = document.querySelector("#alterarLivro")
 
 /**
- * Função construtora de Exemplares da Biblioteca
- * @param {*} issn 
- * @param {*} titulo 
- * @param {*} autor 
- * @param {*} editora 
- * @param {*} ano 
- * @param {*} genero 
- * @param {*} local 
- * @param {*} disponibilidade 
- */
-function Livro(ISSN, titulo, autor, editora, anoPublicacao, genero, localizacao, disponibilidade) {
-  this.ISSN = ISSN
-  this.titulo = titulo
-  this.autor = autor
-  this.editora = editora
-  this.anoPublicacao = anoPublicacao
-  this.genero = genero
-  this.localizacao = localizacao
-  this.disponivel = disponibilidade
-}
-
-/**
  * Função que deverá pegar os dados do formulário e gerar um novo 
  * exemplar na lista de livros da biblioteca
 */
